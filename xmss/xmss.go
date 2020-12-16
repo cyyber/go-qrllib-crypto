@@ -8,6 +8,14 @@ import (
 	"runtime"
 )
 
+type EHashFunction = goqrllib.EHashFunction
+
+var EHashFunctions = map[string]goqrllib.EHashFunction{
+	"shake128": goqrllib.SHAKE_128,
+	"shake256": goqrllib.SHAKE_256,
+	"sha2_256": goqrllib.SHA2_256,
+}
+
 var hashFunctionsReverse = map[goqrllib.EHashFunction]string{
 	goqrllib.SHAKE_128: "shake128",
 	goqrllib.SHAKE_256: "shake256",
