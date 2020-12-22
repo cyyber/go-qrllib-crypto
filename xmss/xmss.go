@@ -73,15 +73,13 @@ func NewXMSS(xmssFast goqrllib.XmssFast) *XMSS {
 
 func FromExtendedSeed(extendedSeedBytes []byte) *XMSS {
 	extendedSeed := helper.BytesToUCharVector(extendedSeedBytes)
-	moddedExtendedSeed := helper.NewUCharVector()
-	moddedExtendedSeed.New(extendedSeed.GetData())
 	if extendedSeed.GetData().Size() != 51 {
 		message := fmt.Sprintf("Extended seed size not equals to 51 %v", extendedSeed.GetData().Size())
 		panic(message)
 	}
 
 	tmp := helper.NewUCharVector()
-	tmp.AddBytes(moddedExtendedSeed.GetBytes()[0:3])
+	tmp.AddBytes(extendedSeed.GetBytes()[0:3])
 	descr := goqrllib.QRLDescriptorFromBytes(tmp.GetData())
 
 	if descr.GetSignatureType() != goqrllib.XMSS {
@@ -92,7 +90,7 @@ func FromExtendedSeed(extendedSeedBytes []byte) *XMSS {
 	height := descr.GetHeight()
 	hashFunction := descr.GetHashFunction()
 	tmp = helper.NewUCharVector()
-	tmp.AddBytes(moddedExtendedSeed.GetBytes()[3:])
+	tmp.AddBytes(extendedSeed.GetBytes()[3:])
 
 	return NewXMSS(goqrllib.NewXmssFast__SWIG_1(tmp.GetData(), height, hashFunction))
 }
